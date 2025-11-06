@@ -1,13 +1,38 @@
 <!DOCTYPE html>
-<html lang="">
-  <head>
+<html lang="pt-br">
+<head>
     <meta charset="UTF-8">
-    <link rel="icon" href="/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vite App</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+    <title>Livraria</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+  <div class="topo">
+  <h1>Livraria<br>Capítulo Secreto</h1>
+    <img src="img/bann.png" alt="Livro" class="gatinho-banner">
+
+  </div>
+  <nav>
+    <ul>
+      <li><a href="index.html">Início</a></li>
+      <li><a href="#">Produtos</a></li>
+      <li><a href="#">Contatos</a></li>
+      <li><a href="cadastro.html">Cadastro</a></li>
+    </ul>
+  </nav>
+</header>
+
+    <main>
+        <section class="card-container" id="produtos"></section>
+    </main>
+
+    <!-- Único script global -->
+    <script src="script.js"></script>
+
+<footer>
+     <p>&copy; 2025 Girls in code </p></footer>
+     <img src="img/folha.jpg" class="footer-img">
+
+</body>
 </html>
