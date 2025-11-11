@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "email": "admin@livros.com",
+    "senha": "$2b$10$wT6g.W2g5xK8v/YjMh9hT.T0kLqJ2bY9v5xY9/4Hl1A6B3q/K0mO",
+    "nome": "Administrador Mestre",
+    "role": "admin"
+  },
+  {
+    "id": 2,
+    "email": "teste@livros.com",
+    "senha": "$2b$10$wT6g.W2g5xK8v/YjMh9hT.T0kLqJ2bY9v5xY9/4Hl1A6B3q/K0mO",
+    "nome": "Usuário Comum",
+    "role": "user"
+  }
+]

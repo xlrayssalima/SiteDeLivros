@@ -1,0 +1,57 @@
+[33mcommit d49532582485b7e9466e165fa4e70b2e81f34f24[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: leneribeiro <rosileneolegario24@gmail.com>
+Date:   Fri Nov 7 13:06:37 2025 -0300
+
+    Atualização do layout da página inicial
+
+ SiteDeLivros | 2 [32m+[m[31m-[m
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+[33mcommit 94c359c0bf61097aa6c63663b16f108f5f40a915[m
+Author: leneribeiro <rosileneolegario24@gmail.com>
+Date:   Thu Nov 6 16:34:09 2025 -0300
+
+    Primeiro commit do projeto
+
+ SiteDeLivros | 1 [32m+[m
+ 1 file changed, 1 insertion(+)
+
+[33mcommit 5c81df1b5446677922cc18d830cc515d1658dd1b[m
+Author: Jaaziel Levi <jaaziel@Jaaziels-MacBook-Air.local>
+Date:   Thu Nov 6 22:03:46 2025 -0300
+
+    Criação de páginas
+
+ site-de-livros/package-lock.json                 | 2414 [32m++++++++++++++++++++++[m
+ site-de-livros/package.json                      |   10 [32m+[m[31m-[m
+ site-de-livros/src/App.vue                       |   33 [32m+[m[31m-[m
+ site-de-livros/src/components/AdminMenu.vue      |   28 [32m+[m
+ site-de-livros/src/main.js                       |    8 [32m+[m[31m-[m
+ site-de-livros/src/mocks/books.js                |    8 [32m+[m
+ site-de-livros/src/router/index.js               |   51 [32m+[m
+ site-de-livros/src/views/DashboardView.vue       |   53 [32m+[m
+ site-de-livros/src/views/HomeView.vue            |   32 [32m+[m
+ site-de-livros/src/views/LivroView.vue           |   29 [32m+[m
+ site-de-livros/src/views/LivrosAdminView.vue     |   80 [32m+[m
+ site-de-livros/src/views/cadastroLivroView.vue   |   93 [32m+[m
+ site-de-livros/src/views/cadastroUsuarioView.vue |   53 [32m+[m
+ site-de-livros/src/views/loginView.vue           |   63 [32m+[m
+ 14 files changed, 2940 insertions(+), 15 deletions(-)
+
+[33mcommit 8a38738c79ae3ae5025efc49fbdf850dcafcf0ec[m
+Author: Jaaziel Levi <jaaziel@Jaaziels-MacBook-Air.local>
+Date:   Sat Nov 1 21:40:11 2025 -0300
+
+    criando o projeto
+
+ site-de-livros/.gitignore              |  36 [32m+++++++++++++++++++++++++++++++[m
+ site-de-livros/.vscode/extensions.json |   3 [32m+++[m
+ site-de-livros/README.md               |  38 [32m+++++++++++++++++++++++++++++++++[m
+ site-de-livros/index.html              |  13 [32m+++++++++++[m
+ site-de-livros/jsconfig.json           |   8 [32m+++++++[m
+ site-de-livros/package.json            |  22 [32m+++++++++++++++++++[m
+ site-de-livros/public/favicon.ico      | Bin [31m0[m -> [32m4286[m bytes
+ site-de-livros/src/App.vue             |  11 [32m++++++++++[m
+ site-de-livros/src/main.js             |   4 [32m++++[m
+ site-de-livros/vite.config.js          |  18 [32m++++++++++++++++[m
+ 10 files changed, 153 insertions(+)
