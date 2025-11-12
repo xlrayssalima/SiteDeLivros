@@ -1,0 +1,58 @@
+[
+  {
+    "id": 1,
+    "titulo": "A Hora da Estrela",
+    "autor": "Clarice Lispector",
+    "preco": "24.74",
+    "capa": "https://m.media-amazon.com/images/I/61TaHURu27L._AC_UF1000,1000_QL80_.jpg",
+    "descricao": "A Hora da Estrela é um romance literário da escritora brasileira Clarice Lispector. O romance narra a história da datilógrafa alagoana, Macabéa, que migra para o Rio de Janeiro, tendo sua rotina narrada por um escritor fictício chamado Rodrigo S.M."
+  },
+  {
+    "id": 2,
+    "titulo": "Verity",
+    "autor": "Collen Hoover",
+    "preco": "39.74",
+    "capa": "https://m.media-amazon.com/images/I/91SDZ2eUj+L.jpg",
+    "descricao": "Um casal apaixonado. Uma intrusa. Três mentes doentias. Finalista do prêmio Goodreads como melhor romance de 2019, Verity é o primeiro thriller de Colleen Hoover e deixa os leitores envolvidos do começo ao fim."
+  },
+  {
+    "id": 3,
+    "titulo": "Flores para Algernon",
+    "autor": "Daniel Keyes",
+    "preco": "50.85",
+    "capa": "https://m.media-amazon.com/images/I/71VrMtcmE9L.jpg",
+    "descricao": "Flores para Algernon é um conto do autor americano Daniel Keyes, posteriormente expandido em um romance por ele e depois adaptado para cinema e outras mídias."
+  },
+  {
+    "id": 4,
+    "titulo": "A pequena Livraria dos Sonhos",
+    "autor": "Jenny Colgan",
+    "preco": "36.47",
+    "capa": "https://m.media-amazon.com/images/I/61irAkaOOdL._AC_UF1000,1000_QL80_.jpg",
+    "descricao": "Nina Redmond é uma bibliotecária que passa os dias unindo alegremente livros e pessoas – ela sempre sabe as histórias ideais para cada leitor. Mas, quando a biblioteca pública em que trabalha fecha as portas, Nina não tem ideia do que fazer. Então um anúncio de classificados chama sua atenção: uma van que ela pode transformar em uma livraria volante, para dirigir pela Escócia e, com o poder da literatura, transformar vidas em cada lugar por onde passar. Usando toda a sua coragem e suas economias, Nina larga tudo e vai começar do zero em um vilarejo nas Terras Altas. Lá ela descobre um mundo de aventura, magia e romance, e o lugar aos poucos vai se tornando o seu lar. Um local onde, talvez, ela possa escrever seu próprio final feliz."
+  },
+  {
+    "id": 5,
+    "titulo": "O preço da Felicidade",
+    "autor": "Mih Brandão",
+    "preco": "59.90",
+    "capa": "https://m.media-amazon.com/images/I/51N4lUHX5KL._AC_UF1000,1000_QL80_.jpg",
+    "descricao": "Aos 18 anos, Alexia não pensa em se comprometer com nada mais além do seu trabalho, sua irmã de três anos e sua faculdade, mas sua vida dá um solavanco surpreendente quando em uma noite de estudos, por acaso, ela conhece Stefan. Playboy, riquinho metido a besta, o típico garoto que não quer nada com nada, já que é filho de um dos empresários mais influentes do país. Alexia jamais imaginou que algum dia pudesse existir um elo de amizade tão forte entre eles, mas dizem que amizade pode virar amor... será? Um encontro inesperado. Um futuro incerto. Dois seres totalmente diferentes.O destino parece estar a favor deles, mas mesmo assim, ainda está disposto a lhes pregar algumas peças."
+  },
+  {
+    "id": 6,
+    "titulo": "O silêncio dos Inocentes - Entre Cordeiros e Monstros",
+    "autor": "Yvonne  Tasker",
+    "preco": "56.19",
+    "capa": "https://m.media-amazon.com/images/I/91fDQ+DOpHL._AC_UF350,350_QL80_.jpg",
+    "descricao": "O Silêncio dos Inocentes: Entre Cordeiros e Monstros é um livro de análise sobre o filme de 1991, escrito por Yvonne Tasker, que examina o impacto do filme, os temas de razão e loucura, identidade e o legado de \"O Silêncio dos Inocentes\" como um clássico do terror. O livro discute como a obra aborda o crime e a investigação através de uma lente que explora a quebra de gênero e a violência, analisando a complexidade de personagens como Clarice Starling e Hannibal Lecter. "
+  },
+  {
+    "titulo": "A Sutil Arte de Ligar o F*da-Se",
+    "autor": "Mark Manson",
+    "preco": 39.42,
+    "descricao": "Chega de tentar buscar um sucesso que só existe na sua cabeça. Chega de se torturar para pensar positivo enquanto sua vida vai ladeira abaixo. Chega de se sentir inferior por não ver o lado bom de estar no fundo do poço.\n\nCoaching, autoajuda, desenvolvimento pessoal, mentalização positiva - sem querer desprezar o valor de nada disso, a grande verdade é que às vezes nos sentimos quase sufocados diante da pressão infinita por parecermos otimistas o tempo todo. É um pecado social se deixar abater quando as coisas não vão bem. Ninguém pode fracassar simplesmente, sem aprender nada com isso. Não dá mais. É insuportável. E é aí que entra a revolucionária e sutil arte de ligar o foda-se.\n\nMark Manson usa toda a sua sagacidade de escritor e seu olhar crítico para propor um novo caminho rumo a uma vida melhor, mais coerente com a realidade e consciente dos nossos limites. E ele faz isso da melhor maneira. Como um verdadeiro amigo, Mark se senta ao seu lado e diz, olhando nos seus olhos: você não é tão especial. Ele conta umas piadas aqui, dá uns exemplos inusitados ali, joga umas verdades na sua cara e pronto, você já se sente muito mais alerta e capaz de enfrentar esse mundo cão.",
+    "capa": "https://m.media-amazon.com/images/I/6175IU0qFgL._SY466_.jpg",
+    "id": 7
+  }
+]

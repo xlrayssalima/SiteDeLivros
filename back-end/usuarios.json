@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "email": "admin@teste.com",
+    "senha": "$2b$10$ajTRsOnGPSdwOiciOyUGuuPcEfwTfJgEX91ZIhNbLpI6h3uuRFgHS",
+    "nome": "Admin",
+    "role": "admin"
+  },
+  {
+    "id": 2,
+    "email": "teste@livros.com",
+    "senha": "$2b$10$wT6g.W2g5xK8v/YjMh9hT.T0kLqJ2bY9v5xY9/4Hl1A6B3q/K0mO",
+    "nome": "Usuário Comum",
+    "role": "user"
+  },
+  {
+    "id": 3,
+    "email": "teste@email.com",
+    "senha": "$2b$10$aNapISKnNx0FfXk93rf45.wmnb/ekVSaTYyi.sxNR805VmppKjufu",
+    "nome": "teste",
+    "role": "user"
+  },
+  {
+    "id": 4,
+    "email": "rayssa@email.com",
+    "senha": "$2b$10$lUmzVJIXFQ6h2u0SVGP3ieXoj6dwftawAWPiClKwDEvbYDplN/PVe",
+    "nome": "Rayssa",
+    "role": "user"
+  }
+]
