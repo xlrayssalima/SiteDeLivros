@@ -1,5 +1,6 @@
 <template>
   <main id="produto-detalhe">
+    <!-- mensagens -->
     <div v-if="erro" class="message-error">
       <h2>Erro ao Carregar Produto</h2>
       <p>{{ erro }}</p>
@@ -11,6 +12,7 @@
       <p>O registro foi excluído com sucesso.</p>
     </div>
 
+    <!-- detalhes -->
     <div v-else-if="produto" class="produto-detalhe-wrapper">
       <div class="produto-detalhe-card shadow-sm">
         <div class="produto-img-wrapper">
@@ -19,21 +21,33 @@
 
         <div class="produto-info">
           <h2>{{ produto.titulo }}</h2>
-          
           <div class="meta-info">
             <p class="autor-info"><strong>Autor:</strong> {{ produto.autor }}</p>
             <p class="preco-destaque">
               <span>R$ {{ formatarPreco(produto.preco) }}</span>
             </p>
           </div>
-
           <p class="descricao"><strong>Descrição:</strong> {{ produto.descricao }}</p>
-          
           <p v-if="produto.detalhes" class="detalhes"><strong>Detalhes:</strong> {{ produto.detalhes }}</p>
 
           <div class="action-buttons" v-if="usuario && usuario.role === 'admin'">
             <router-link :to="`/editar/${produto.id}`" class="btn-editar">Editar</router-link>
-            <button @click="excluirProduto" class="btn-excluir">Excluir Produto</button>
+            <button @click="abrirModalExclusao" class="btn-excluir">Excluir Produto</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal de confirmação -->
+    <div v-if="mostrarModal" class="modal-overlay">
+      <div class="modal-container">
+        <div class="modal-content">
+          <h3>Confirmar exclusão</h3>
+          <p>Tem certeza que deseja excluir o livro <strong>{{ produto.titulo }}</strong>?</p>
+
+          <div class="modal-buttons">
+            <button @click="confirmarExclusao" class="btn-excluir">Sim, excluir</button>
+            <button @click="fecharModal" class="btn-voltar">Cancelar</button>
           </div>
         </div>
       </div>
@@ -41,74 +55,88 @@
   </main>
 </template>
 
-<script>
-export default {
-  name: 'DetalheProduto',
-  data() {
-    return {
-      produto: null,
-      erro: '',
-      removido: false,
-      usuario: null, // usuário logado
-    };
-  },
-  async mounted() {
-    this.usuario = JSON.parse(localStorage.getItem('usuario')) || null;
+<script setup>
+import { ref, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
-    const id = this.$route.params.id;
+// Instâncias do roteador
+const route = useRoute();
+const router = useRouter();
 
-    try {
-      const res = await fetch(`http://localhost:3000/livros/${id}`);
-      if (!res.ok) throw new Error(`Erro ${res.status}: Produto não encontrado`);
-      this.produto = await res.json();
-    } catch (err) {
-      this.erro = err.message;
-    }
-  },
-  methods: {
-    formatarPreco(valor) {
-      return parseFloat(valor).toFixed(2).replace('.', ',');
-    },
-    async excluirProduto() {
-      if (!confirm(`Tem certeza que deseja excluir o produto com ID ${this.produto.id}?`)) return;
+// Estados reativos
+const produto = ref(null);
+const erro = ref('');
+const removido = ref(false);
+const usuario = ref(null);
+const mostrarModal = ref(false);
 
-      try {
-        const res = await fetch(`http://localhost:3000/livros/admin/${this.produto.id}`, {
-          method: 'DELETE',
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-          }
-        });
+// Função utilitária
+function formatarPreco(valor) {
+  return parseFloat(valor).toFixed(2).replace('.', ',');
+}
 
-        if (!res.ok) throw new Error('Erro ao tentar excluir o produto no servidor.');
-        this.removido = true;
-      } catch (err) {
-        this.erro = err.message;
+// Funções do modal
+function abrirModalExclusao() {
+  mostrarModal.value = true;
+}
+
+function fecharModal() {
+  mostrarModal.value = false;
+}
+
+// Confirma exclusão
+async function confirmarExclusao() {
+  try {
+    const res = await fetch(`http://localhost:3000/livros/admin/${produto.value.id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
       }
-    }
+    });
+
+    if (!res.ok) throw new Error('Erro ao tentar excluir o produto no servidor.');
+
+    removido.value = true;
+    mostrarModal.value = false;
+
+    // Redireciona após 2 segundos
+    setTimeout(() => router.push('/'), 2000);
+
+  } catch (err) {
+    erro.value = err.message;
+    mostrarModal.value = false;
   }
-};
+}
+
+// Montagem inicial
+onMounted(async () => {
+  usuario.value = JSON.parse(localStorage.getItem('user')) || null;
+  const id = route.params.id;
+
+  try {
+    const res = await fetch(`http://localhost:3000/livros/${id}`);
+    if (!res.ok) throw new Error(`Erro ${res.status}: Produto não encontrado`);
+    produto.value = await res.json();
+  } catch (err) {
+    erro.value = err.message;
+  }
+});
 </script>
 
 <style scoped>
-/* =======================================
-   1. LAYOUT GERAL E CENTRALIZAÇÃO 
-   ======================================= */
 .produto-detalhe-wrapper {
   padding: 2rem 1rem;
   width: 100%; 
 }
 
 .produto-detalhe-card {
-  /* Garante as duas colunas: Imagem | Texto */
   display: flex; 
   gap: 1.5rem;
   padding: 1.5rem;
   border-radius: 8px;
   
-  /* Centralização e Largura */
   margin: 0 auto; 
-  min-width: 900px; /* Largura mínima "gorda" */
+  min-width: 900px;
   width: 90%; 
   max-width: 1400px;
   
@@ -116,11 +144,7 @@ export default {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* =======================================
-   2. IMAGEM (Tamanho Fixo 250x350px)
-   ======================================= */
 .produto-img-wrapper {
-  /* Dimensões FIXAS */
   width: 250px; 
   height: 350px; 
   flex-shrink: 0; 
@@ -131,20 +155,16 @@ export default {
 .produto-img {
   width: 100%; 
   height: 100%; 
-  object-fit: cover; /* Preenche a área fixa */
+  object-fit: cover;
   display: block; 
 }
 
-/* =======================================
-   3. CONTEÚDO À DIREITA (Texto)
-   ======================================= */
 .produto-info {
-  flex: 1; /* Ocupa o espaço restante */
+  flex: 1; 
   display: flex; 
-  flex-direction: column; /* Organiza o texto verticalmente */
+  flex-direction: column; 
 }
 
-/* Título: Centralizado */
 .produto-info h2 {
   text-align: center;
   margin-bottom: 1.5rem;
@@ -152,31 +172,28 @@ export default {
   line-height: 1.2;
 }
 
-/* Linha Autor/Preço (meta-info): Lados Opostos */
 .meta-info {
   display: flex;
-  justify-content: space-between; /* Empurra Autor e Preço para os lados */
+  justify-content: space-between; 
   align-items: center;
   margin-bottom: 1.5rem; 
   padding-bottom: 0.5rem;
   border-bottom: 1px solid #eee; 
 }
 
-/* Autor: Texto normal */
 .autor-info {
     margin: 0;
     font-size: 1rem;
     color: #333; 
 }
 
-/* Preço: Destaque dentro da caixinha */
 .preco-destaque {
     margin: 0;
 }
 
 .preco-destaque span {
-    background-color: #d4edda; /* Fundo verde claro */
-    color: #155724; /* Texto verde escuro */
+    background-color: #d4edda; 
+    color: #155724; 
     font-weight: bold;
     font-size: 1.1rem;
     padding: 0.5rem 1rem;
@@ -185,7 +202,6 @@ export default {
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-/* Descrição e Detalhes: Alinhamento à esquerda, cor preta/sem negrito */
 .produto-info p {
   margin-bottom: 0.75rem; 
   text-align: left; 
@@ -195,15 +211,12 @@ export default {
 
 .descricao, .detalhes {
     line-height: 1.5;
-    text-align: justify; /* Justifica o texto longo */
+    text-align: justify; 
     margin-top: 1rem;
 }
 
-/* =======================================
-   4. BOTÕES (Empurrados para o final)
-   ======================================= */
 .action-buttons {
-  margin-top: auto; /* Empurra o bloco para o fundo do .produto-info */
+  margin-top: auto; 
   padding-top: 1rem; 
   border-top: 1px solid #eee;
   display: flex;
@@ -236,5 +249,85 @@ export default {
   color: #fff;
   margin-top: 1rem;
   display: inline-block;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000; /* garantir que fique por cima de tudo */
+}
+
+.modal-container {
+  width: 100%;
+  max-width: 420px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  padding: 1.5rem 2rem;
+  text-align: center;
+  animation: modalFadeIn 0.25s ease;
+}
+
+.modal-content h3 {
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.modal-content p {
+  color: #555;
+  margin-bottom: 1.5rem;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.modal-buttons .btn-excluir,
+.modal-buttons .btn-voltar {
+  flex: 1; /* 🔹 ambos ocupam o mesmo espaço */
+  max-width: 140px; /* limite de largura */
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+/* Cores padronizadas dentro do modal */
+.modal-buttons .btn-excluir {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.modal-buttons .btn-excluir:hover {
+  background-color: #b52a38;
+}
+
+.modal-buttons .btn-voltar {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+.modal-buttons .btn-voltar:hover {
+  background-color: #5a6268;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style>

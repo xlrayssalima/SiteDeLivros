@@ -1,12 +1,11 @@
 <template>
   <div>
     <header>
-      <h1>Cadastro de Livro</h1>
+      <h1>{{ isEditando ? 'Editar Livro' : 'Cadastro de Livro' }}</h1>
     </header>
 
     <main>
       <form @submit.prevent="cadastrarLivro" class="form-container">
-        <!-- O v-model agora aponta para os refs dentro do objeto 'livro' -->
         <label for="titulo">Titulo:</label>
         <input type="text" id="titulo" v-model="livro.titulo" required /> 
         
@@ -23,25 +22,22 @@
         <input type="text" id="capa" v-model="livro.capa" required />
 
         <button type="submit" :disabled="isLoading">
-          {{ isLoading ? 'Enviando...' : 'Cadastrar' }}
+          {{ isLoading ? 'Salvando...' : (isEditando ? 'Atualizar Livro' : 'Cadastrar') }}
         </button>
       </form>
 
-      <!-- Mensagem de Feedback -->
       <div id="mensagem" v-if="mensagem" :style="{ color: mensagemCor }" v-html="mensagem"></div>
-
     </main>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue';
-// Importação opcional do useRouter se você quiser redirecionar
-// import { useRouter } from 'vue-router'; 
+import { ref, reactive, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
-// const router = useRouter(); 
+const route = useRoute();
+const router = useRouter();
 
-// Estado reativo usando ref e reactive (Composition API)
 const livro = reactive({
   titulo: '',
   autor: '',
@@ -52,83 +48,65 @@ const livro = reactive({
 
 const mensagem = ref('');
 const mensagemCor = ref('black');
-const isLoading = ref(false); // Adicionado para controle do botão
+const isLoading = ref(false);
+const isEditando = ref(false);
+
+onMounted(async () => {
+  const id = route.params.id;
+  if (id) {
+    isEditando.value = true;
+    try {
+      const res = await fetch(`http://localhost:3000/livros/${id}`);
+      if (!res.ok) throw new Error('Livro não encontrado.');
+      const data = await res.json();
+      Object.assign(livro, data);
+    } catch (err) {
+      mensagem.value = err.message;
+      mensagemCor.value = 'red';
+    }
+  }
+});
 
 async function cadastrarLivro() {
   isLoading.value = true;
-  mensagem.value = ''; // Limpa mensagens anteriores
-  
-  const { titulo, autor, preco, descricao, capa } = livro;
+  mensagem.value = '';
 
-  // Validação
-  if (!titulo || !autor || !descricao || isNaN(preco) || preco <= 0 || !capa) {
-    mensagem.value = 'Preencha todos os campos corretamente (Preço deve ser maior que zero).';
-    mensagemCor.value = 'red';
-    isLoading.value = false;
-    return;
-  }
-
-  // CORREÇÃO ESSENCIAL: Carregar o token do localStorage
-  const token = localStorage.getItem('token'); 
-  
+  const token = localStorage.getItem('token');
   if (!token) {
-    mensagem.value = 'Erro: Token de autenticação não encontrado. Faça login novamente.';
+    mensagem.value = 'Erro: token de autenticação não encontrado.';
     mensagemCor.value = 'red';
     isLoading.value = false;
     return;
   }
+
+  const metodo = isEditando.value ? 'PUT' : 'POST';
+  const url = isEditando.value
+    ? `http://localhost:3000/livros/admin/${route.params.id}`
+    : 'http://localhost:3000/livros/admin/livros';
 
   try {
-    // CORRIGIDO AQUI: A rota correta que o backend espera é /livros/admin/livros
-    const res = await fetch('http://localhost:3000/livros/admin/livros', {
-      method: 'POST',
-      headers: { 
-        'Content-Type': 'application/json', 
-        'Authorization': `Bearer ${token}` 
+    const res = await fetch(url, {
+      method: metodo,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify(livro)
     });
 
-    if (!res.ok) {
-      // Tenta ler a mensagem de erro do servidor
-      const errorData = await res.json().catch(() => ({ mensagem: `Erro ${res.status}: Falha desconhecida no servidor.` }));
-      
-      let errorMsg = errorData.mensagem || `Erro no servidor (${res.status}). Verifique a rota e permissões.`;
-      
-      // Se for 403 ou 401, o token pode ser inválido/expirado
-      if (res.status === 403 || res.status === 401) {
-          errorMsg = `Acesso Negado (${res.status}). Verifique se você está logado como administrador.`;
-      }
-      // Se for 404, a URL está errada
-      if (res.status === 404) {
-          errorMsg = `Rota de cadastro não encontrada. A URL correta é /livros/admin/livros.`;
-      }
-
-      throw new Error(errorMsg);
-    }
-
     const data = await res.json();
-    
-    // Sucesso
-    mensagem.value = `Livro <strong>${data.titulo || data.nome}</strong> cadastrado com sucesso!`;
+    if (!res.ok) throw new Error(data.mensagem || 'Erro ao salvar o livro.');
+
+    mensagem.value = isEditando.value
+      ? `Livro <strong>${data.titulo}</strong> atualizado com sucesso!`
+      : `Livro <strong>${data.titulo}</strong> cadastrado com sucesso!`;
     mensagemCor.value = 'green';
-    
-    // Limpar o formulário após sucesso
-    livro.titulo = '';
-    livro.autor = '';
-    livro.preco = null;
-    livro.descricao = '';
-    livro.capa = '';
 
-    // Remove a mensagem após 5 segundos
-    setTimeout(() => {
-      mensagem.value = '';
-    }, 5000);
-
-  } catch (error) {
-    mensagem.value = `<p>${error.message}</p>`;
+    // Após 2s, volta à lista de livros admin
+    setTimeout(() => router.push('/'), 2000);
+  } catch (err) {
+    mensagem.value = err.message;
     mensagemCor.value = 'red';
-    console.error("Erro no cadastro:", error);
   } finally {
     isLoading.value = false;
   }

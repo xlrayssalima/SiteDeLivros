@@ -73,14 +73,14 @@ const isAdmin = computed(() => user.value && user.value.role === 'admin');
 // --- Funções de Lógica ---
 
 function loadAuthState() {
-  const userData = localStorage.getItem('usuario');
+  const userData = localStorage.getItem('user');
   if (userData) {
     try {
       user.value = JSON.parse(userData);
     } catch (e) {
       console.error("Erro ao carregar dados do usuário do localStorage:", e);
       user.value = null;
-      localStorage.removeItem('usuario');
+      localStorage.removeItem('user');
       localStorage.removeItem('token');
     }
   } else {
@@ -90,7 +90,7 @@ function loadAuthState() {
 
 function logout() {
   localStorage.removeItem('token');
-  localStorage.removeItem('usuario');
+  localStorage.removeItem('user');
   user.value = null;
   
   // Redireciona para login após sair

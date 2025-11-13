@@ -17,7 +17,7 @@
       </div>
 
       <div class="col-md-4 mb-3">
-        <div class="card shadow p-4 text-center bg-warning text-dark">
+        <div class="card shadow p-4 text-center totalUsuario text-dark">
           <h5>Total de Usuários</h5>
           
           
@@ -149,10 +149,13 @@ onMounted(() => {
 
 /* Cores Bootstrap para os cards */
 .bg-info {
-    background-color: #0d6efd !important;
+    background-color:  #950a0aba !important;
+}
+.totalUsuario {
+    background-color:  #486e0786 !important;
 }
 .bg-success {
-    background-color: #198754 !important;
+    background-color: #61021890 !important;
 }
 /* Estilo para o card de Usuários indisponível */
 .bg-warning {

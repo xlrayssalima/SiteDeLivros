@@ -23,6 +23,7 @@ const routes = [
   { path: '/admin/livros', name: 'cadastroLivro', component: CadastroLivroView, meta: { requiresAuth: true } }, 
   
   { path: '/livro/:id', name: 'livro', component: LivroView},
+  { path: '/editar/:id', name: 'editarLivro', component: CadastroLivroView, meta: { requiresAuth: true, requiresAdmin: true } },
   { path: '/dashboard', name: 'dashboard', component: DashboardView},
   { path: '/livros-admin', name: 'livros-admin', component: LivrosAdminView, meta: { requiresAuth: true, requiresAdmin: true } }
 ]
