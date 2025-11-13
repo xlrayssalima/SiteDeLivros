@@ -84,7 +84,7 @@ async function handleLogin() {
     localStorage.setItem('token', data.token); 
     
     // Armazena os dados do usuário, incluindo o role
-    localStorage.setItem('usuario', JSON.stringify(data.usuario));
+    localStorage.setItem('user', JSON.stringify(data.usuario)); 
 
     // Redirecionamento
     if (data.usuario.role === 'admin') {
